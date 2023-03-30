@@ -1,0 +1,15 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="card shadow-lg">
+            <h1 class="card-header">{{ title|default('Ajouter / Modifier') }}</h1>
+            <div class="card-body">
+                {% block forms %}
+               
+                {% endblock %}
+            </div>
+        </div>
+        <a href="{{ path(cancel_route|default('app_home')) }}">retour</a>
+    </div>
+{% endblock %}

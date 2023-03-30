@@ -1,0 +1,17 @@
+body {
+    background-color: lightgray;
+}
+
+.banner-image {
+    background-size: cover ;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.vich-image img {
+    width: 200px;
+}
+
+.card-img-top {
+    width: 200px;
+}

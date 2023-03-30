@@ -1,0 +1,51 @@
+{% extends 'admin/_table.html.twig' %}
+
+{% block actions %}
+ <a href="{{ path('app_shoes_new') }}">Créer</a>
+{% endblock %}
+
+{% block table_content %}
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Gender</th>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Size</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for shoe in shoes %}
+            <tr>
+                <td>{{ shoe.id }}</td>
+                <td>{{ shoe.gender }}</td>
+                <td>{{ shoe.name }}</td>
+                <td>{{ shoe.stock }}</td>
+                <td>{{ shoe.price }}</td>
+                <td>{{ shoe.size }}</td>
+                <td>{{ shoe.type }}</td>
+                <td>{{ shoe.description }}</td>
+                <td>{{ shoe.date ? shoe.date|date('Y-m-d') : '' }}</td>
+                <td>{{ shoe.image }}</td>
+                <td>
+                    <a href="{{ path('app_shoes_show', {'id': shoe.id}) }}">Voir le produit</a>
+                    <a href="{{ path('app_shoes_edit', {'id': shoe.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+{% endblock %}
+
+
+
+
