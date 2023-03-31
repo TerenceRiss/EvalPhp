@@ -25,14 +25,10 @@ class Shoes
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
 
-    #[ORM\Column]
-    private ?int $stock = null;
 
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\Column]
-    private ?int $size = null;
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
@@ -58,12 +54,16 @@ class Shoes
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
+    #[ORM\OrderBy(["size" => "ASC"])]
+    #[ORM\OneToMany(mappedBy: 'model', targetEntity: Variant::class, orphanRemoval: true)]
+    private Collection $variants;
+
     public function __construct()
     {
         $this->date = new DateTime();
-        $this->stock = 0 ;
         $this->likes = new ArrayCollection();
         $this->user = new ArrayCollection();
+        $this->variants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,17 +83,6 @@ class Shoes
         return $this;
     }
 
-    public function getStock(): ?int
-    {
-        return $this->stock;
-    }
-
-    public function setStock(int $stock): self
-    {
-        $this->stock = $stock;
-
-        return $this;
-    }
 
     public function getPrice(): ?int
     {
@@ -107,17 +96,6 @@ class Shoes
         return $this;
     }
 
-    public function getSize(): ?int
-    {
-        return $this->size;
-    }
-
-    public function setSize(int $size): self
-    {
-        $this->size = $size;
-
-        return $this;
-    }
 
     public function getType(): ?string
     {
@@ -259,4 +237,57 @@ class Shoes
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return Collection<int, Variant>
+     */
+    public function getVariants(): Collection
+    {
+        return $this->variants;
+    }
+
+    public function addVariant(Variant $variant): self
+    {
+        if (!$this->variants->contains($variant)) {
+            $this->variants->add($variant);
+            $variant->setModel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariant(Variant $variant): self
+    {
+        if ($this->variants->removeElement($variant)) {
+            // set the owning side to null (unless already changed)
+            if ($variant->getModel() === $this) {
+                $variant->setModel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMinSize(): string
+    {
+        if($this->variants->count() < 1) {
+            return '-';
+        }
+        return $this->variants->first()->getSize();
+    }
+
+    public function getMaxSize(): string
+    {
+        if($this->variants->count() < 1) {
+            return '-';
+        }
+        return $this->variants->last()->getSize();
+    }
+
+
 }

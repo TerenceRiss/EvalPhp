@@ -82,6 +82,8 @@ class ShoesRepository extends ServiceEntityRepository
         ;
     }
 
+    
+
     if(!empty($search['type'])){
         $query
         ->andWhere('r.type LIKE :type')
@@ -94,8 +96,14 @@ class ShoesRepository extends ServiceEntityRepository
         //    ->setMaxResults(10)
         //    ->getQuery()
         //    ->getResult()
-           return $query->getQuery()->getResult();
-   }
+    if(!empty($search['date'])){
+        $array = explode(' ', $search['date']);
+        $query
+        ->orderBy($array[0], $array[1]);
+
+    }
+        return $query->getQuery()->getResult();
+}
 
 //    public function findOneBySomeField($value): ?Shoes
 //    {

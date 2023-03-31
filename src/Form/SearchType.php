@@ -51,9 +51,14 @@ class SearchType extends AbstractType
                 ],
                 'required' => false
             ])
-            // ->add('date', DateTime::class, [
-            //     'widget' => 'choice'
-            // ])
+            ->add('date', ChoiceType::class, [
+                'choices'=>[
+                    'date asc'=> 'r.date asc',
+                    'date desc' => 'r.date desc'
+                ],
+                'required' => false
+
+            ])
             ->add('price', ChoiceType::class, [
                 'choices' => [
                     '50 à 100 €' => json_encode(['min' => 50, 'max' => 100]),

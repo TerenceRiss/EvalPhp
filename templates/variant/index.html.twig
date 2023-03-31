@@ -1,16 +1,11 @@
-{% extends 'admin/__form.html.twig' %}
-{% set cancel_route = "app_shoes_index" %}
-{% block forms %}
+{% extends 'base.html.twig' %}
 
-    {{ include('shoes/_form.html.twig', {'button_label': 'Update'}) }}
+{% block title %}Variant index{% endblock %}
 
+{% block body %}
+    <h1>Variant index</h1>
 
-    {{ include('shoes/_delete_form.html.twig') }}
-
-
-    <h2>Listes des tailles</h2>
-
-    <table class="table table-stripped table-hover">
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -20,22 +15,23 @@
             </tr>
         </thead>
         <tbody>
-        {% for variant in shoe.variants %}
+        {% for variant in variants %}
             <tr>
                 <td>{{ variant.id }}</td>
                 <td>{{ variant.size }}</td>
                 <td>{{ variant.stock }}</td>
                 <td>
+                    <a href="{{ path('app_variant_show', {'id': variant.id}) }}">show</a>
                     <a href="{{ path('app_variant_edit', {'id': variant.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">aucune taille pour ce modèle</td>
+                <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_variant_new', {'shoe': shoe.id}) }}">Ajouter une taille</a>
+    <a href="{{ path('app_variant_new') }}">Create new</a>
 {% endblock %}
